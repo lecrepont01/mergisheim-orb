@@ -26,6 +26,7 @@ Within the `@orb.yml` we generally specify 4 configuration keys
  - [Reusable Configuration](https://circleci.com/docs/2.0/reusing-config)
 
 ## Steps
+Taken from: https://circleci.com/docs/orb-author-validate-publish/
 
 - packing the configuration:
 
@@ -38,4 +39,8 @@ Within the `@orb.yml` we generally specify 4 configuration keys
 - push to VCS
 
 
-- publish
+- publish dev version
+
+`circleci orb publish src/orb.yml krepon/mergisheim@dev:first`
+
+- promote it to production with an increment
