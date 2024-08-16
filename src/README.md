@@ -27,5 +27,15 @@ Within the `@orb.yml` we generally specify 4 configuration keys
 
 ## Steps
 
-- packing the configuration
-  `circleci config pack src`
+- packing the configuration:
+
+`circleci config pack src > src/orb.yml`
+
+- validate it:
+
+`circleci orb validate src/orb.yml`
+
+- push to VCS
+
+
+- publish
