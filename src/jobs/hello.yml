@@ -1,6 +1,5 @@
 description: >
-  Sample description
-# What will this job do?
+  Job is responsible for greeting.
 
 executor: default
 
@@ -10,5 +9,6 @@ parameters:
     default: "World"
     description: "Hello to whom?"
 steps:
+  # uses commands/greet
   - greet:
       to: << parameters.to >>
