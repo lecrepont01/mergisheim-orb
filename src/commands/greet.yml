@@ -1,5 +1,5 @@
 description: >
-  This command echos "Hello World" using file inclusion.
+  Example of usage of the orb's job or of the job's greet command in a step.
 
 parameters:
   to:
@@ -11,5 +11,5 @@ steps:
       environment:
         # passes parameter to the script
         PARAM_TO: <<parameters.to>>
-      name: Hello Greeting
+      name: Hello Greeting Command
       command: <<include(scripts/greet.sh)>>

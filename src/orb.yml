@@ -1,7 +1,10 @@
+version: 2.1
+description: |
+    My test orb is a Hello World example.
 commands:
     greet:
         description: |
-            This command echos "Hello World" using file inclusion.
+            Example of usage of the orb's job or of the job's greet command in a step.
         parameters:
             to:
                 default: World
@@ -9,33 +12,25 @@ commands:
                 type: string
         steps:
             - run:
-                command: \<<include(scripts/greet.sh)>>
+                command: |
+                    #!/bin/bash
+                    # This example uses envsubst to support variable substitution in the string parameter type.
+                    # https://circleci.com/docs/orbs-best-practices/#accepting-parameters-as-strings-or-environment-variables
+                    TO=$(circleci env subst "${PARAM_TO}")
+                    # If for any reason the TO variable is not set, default to "World"
+                    echo "Hello ${TO:-World}!"
                 environment:
                     PARAM_TO: <<parameters.to>>
-                name: Hello Greeting
-description: |
-    My test orb is a Hello World example.
-examples:
-    example:
-        description: |
-            Sample example description.
-        usage:
-            orbs:
-                <orb-name>: <namespace>/<orb-name>@1.2.3
-            version: 2.1
-            workflows:
-                use-my-orb:
-                    jobs:
-                        - <orb-name>/<job-name>
+                name: Hello Greeting Command
 executors:
     default:
         description: |
-            This is a sample executor using Docker and Node. If you want to provide a custom environment in your orb, insert your image here. If you do not require an executor, you can simply delete this directory.
+            The executor called "default"
         docker:
-            - image: alpine:<<parameters.tag>>
+            - image: cimg/base:<<parameters.tag>>
         parameters:
             tag:
-                default: latest
+                default: current
                 description: |
                     Pick a specific cimg/node image variant: https://hub.docker.com/r/cimg/node/tags
                 type: string
@@ -52,6 +47,24 @@ jobs:
         steps:
             - greet:
                 to: << parameters.to >>
-scripts: {}
-version: 2.1
+examples:
+    example:
+        description: |
+            Sample example description.
+        usage:
+            version: "2.1"
+            orbs:
+                mergisheim: krepon/mergisgheim@1.2.3
+            jobs:
+                my_job_using_command:
+                    docker:
+                        - image: alpine:latest
+                    steps:
+                        - mergisheim/greet: null
+                          to: FrodoBaggins
+            workflows:
+                use-my-orb-job:
+                    jobs:
+                        - mergisheim/greet
+                        - my_job_using_command
 
